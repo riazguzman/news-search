@@ -5,10 +5,10 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 
-export default function HomeScreen() {
+export default function AboutScreen() {
   return (
     <ThemedView>
-      <ThemedText>News Search</ThemedText>
+      <ThemedText>About</ThemedText>
     </ThemedView>
   );
 }
