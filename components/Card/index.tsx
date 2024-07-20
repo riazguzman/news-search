@@ -19,6 +19,8 @@ export const Card = ({ title, description }: CardProps) => {
 const styles = StyleSheet.create({
   container: {
     padding: 5,
+    borderWidth: 1,
+    borderColor: "black",
   },
   title: {
     fontSize: 15,

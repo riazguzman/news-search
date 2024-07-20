@@ -37,16 +37,17 @@ const Input = ({ label, labelStyle, error, ref, ...inputProps }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "red",
+    padding: 10,
   },
   label: {
-    backgroundColor: "blue",
+    fontStyle: "normal",
   },
   textError: {
     backgroundColor: "green",
   },
   inputContainer: {
-    backgroundColor: "yellow",
+    borderWidth: 1,
+    borderColor: "black",
   },
 });
 

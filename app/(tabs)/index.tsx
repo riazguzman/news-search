@@ -42,7 +42,13 @@ export default function HomeScreen() {
 
   const handleRender = useCallback(
     ({ field: { onChange, onBlur, value } }: any) => (
-      <Input name="search" label="Search" onChange={onChange} onBlur={onBlur} />
+      <Input
+        name="search"
+        label="Search"
+        onChange={onChange}
+        onBlur={onBlur}
+        placeholder="Enter Article Here!"
+      />
     ),
     []
   );
@@ -57,8 +63,6 @@ export default function HomeScreen() {
     const res = await axios.get(
       `https://newsapi.org/v2/everything?q=${search}&from=2024-07-01&sortBy=popularity&apiKey=55b08268585d4cee8a72e5e92b5628b3`
     );
-
-    console.log(res);
 
     return res;
   };
@@ -91,6 +95,7 @@ export default function HomeScreen() {
       {error && <ThemedText>{error.message}</ThemedText>}
 
       {data && <FlatList data={data.data.articles} renderItem={renderItem} />}
+      
     </ThemedView>
   );
 }
