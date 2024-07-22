@@ -1,13 +1,10 @@
-import { Image, StyleSheet, Platform, Alert, Button } from "react-native";
+import { Button, StyleSheet } from "react-native";
 
-import { HelloWave } from "@/components/HelloWave";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Form, Input } from "@/components/form";
+import { Input } from "@/components/form";
 import { Controller, useForm } from "react-hook-form";
-import { validation } from "@/utils";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { FlatList } from "react-native-gesture-handler";
@@ -25,12 +22,7 @@ export default function HomeScreen() {
     search: string;
   };
 
-  const {
-    control,
-    getValues,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<FormData>({
+  const { control, getValues, handleSubmit } = useForm<FormData>({
     defaultValues: {
       search: "",
     },
@@ -53,11 +45,11 @@ export default function HomeScreen() {
     []
   );
 
-  const fetchAPI = async () => {
+  const fetchArticles = async () => {
     const { search } = getValues();
 
     if (!search) {
-      throw Error;
+      throw new Error("please enter a search term!");
     }
 
     const res = await axios.get(
@@ -68,8 +60,8 @@ export default function HomeScreen() {
   };
 
   const { isLoading, isError, data, error, refetch } = useQuery({
-    queryKey: ["pokemon"],
-    queryFn: fetchAPI,
+    queryKey: ["article_search"],
+    queryFn: fetchArticles,
   });
 
   const renderItem = useCallback(({ item }: { item: Article }) => {
@@ -92,10 +84,23 @@ export default function HomeScreen() {
 
       {isLoading && <ThemedText>Loading...</ThemedText>}
 
-      {error && <ThemedText>{error.message}</ThemedText>}
+      {isError && <ThemedText>{error.message}</ThemedText>}
 
-      {data && <FlatList data={data.data.articles} renderItem={renderItem} />}
-      
+      <ThemedView>
+        {data && (
+          <FlatList
+            style={styles.flatListContainer}
+            data={data.data.articles}
+            renderItem={renderItem}
+          />
+        )}
+      </ThemedView>
     </ThemedView>
   );
 }
+
+const styles = StyleSheet.create({
+  flatListContainer: {
+    display: "flex",
+  },
+});
